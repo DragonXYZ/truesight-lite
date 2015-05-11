@@ -1,0 +1,10 @@
+For quite a long time I've been thinking of ways to **improve introspection capabilities of .NET**. Surely, we've got a very powerful set of features - JIT compilation, runtime code generation, rich reflection facilities, but they are very much shadowed by the low level API provided for them in BCL. To accumulate some of my ideas in that regard, I've put up the [Truesight project](http://code.google.com/p/truesight/).
+
+The project has been moving slowly since its inception until I started a [postgraduate research](http://code.google.com/p/conflux) in the field of GPGPU. Basically that research is about translating code written for .NET into assembly code that will be executed on GPU. For the purposes of the project I first implemented an instruction-level model of the compiled CIL. But then, after I realized that such model is insufficient, I started developing a fully-fledged decompiler for CIL bytecode.
+
+After several months of hacking, I'm very glad to present the first release of my work! Currently, **the decompiler supports [most basic constructs of C#](http://code.google.com/p/truesight-lite/wiki/HirAndIdioms) with the notable exception of try/catch/finally blocks** that I plan to implement later (they were deferred because GPGPU programs don't really need exception-handling, so the driving force in this area was especially low =)).
+
+If we talk about practical value of the project, you can view Truesight in two orthogonal projections:
+  * **Expression Trees on steroids**. Truesight works for all code (not only for expressions), has much richer and arguably more convenient AST and provides runtime access to the entirety of your codebase (not only for code snippets you mark as Expression<...>). All that at the cost of the time required to decompile your methods at run time.
+
+  * **Programmatic Reflector**. Most of things you do manually with Reflector can be achieved with Conflux. Currently it has less features (though in some cases it decompiles control flow more precisely!), and is 2-3x times slower, but it provides a programmatic API and is 100% open-source and free to use in both research and commercial projects.
